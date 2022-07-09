@@ -11,9 +11,9 @@ import utils.Log;
 import java.time.Duration;
 
 public class CommonPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private int timeForPageLoad = 30;
+    private static WebDriver driver;
+    private static WebDriverWait wait;
+    private static int timeForPageLoad = 30;
 
     public CommonPage(WebDriver driver) {
         this.driver = driver;
@@ -30,7 +30,7 @@ public class CommonPage {
         driver.findElement(locator).click();
     }
 
-    public void waitForPageLoaded() {
+    public static void waitForPageLoaded() {
         // wait for jQuery to loaded
         ExpectedCondition<Boolean> jQueryLoad = driver -> {
             try {
@@ -48,10 +48,11 @@ public class CommonPage {
 
         try {
             wait = new WebDriverWait(driver, Duration.ofSeconds(timeForPageLoad));
+            Log.info("| Wait for page load");
             wait.until(jQueryLoad);
             wait.until(jsLoad);
         } catch (Throwable error) {
-            Log.warn("Page load TIMEOUT");
+            Log.warn("| Wait for page load FAIL: " + error.getMessage());
         }
     }
 }
