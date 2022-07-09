@@ -8,11 +8,13 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import utils.Log;
 
 public class Browser {
     private static WebDriver driver;
 
     public static WebDriver browserSetup(String browserName) {
+        Log.info("| Start browser: " + browserName);
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
@@ -45,7 +47,7 @@ public class Browser {
                 driver = new EdgeDriver(edgeOptions);
                 break;
             default:
-                System.out.println("Your browser: '" + browserName + "' is not supported.");
+                Log.warn("| Your browser: '" + browserName + "' is not supported.");
         }
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
