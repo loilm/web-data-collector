@@ -11,8 +11,6 @@ import pages.LaptopByBrandPage;
 import pages.LaptopByCpuPage;
 import pages.ProductPage;
 
-import java.io.IOException;
-
 @Listeners(TestListener.class)
 public class LaptopDataCrawl extends CommonTest {
     private WebDriver driver;
@@ -35,7 +33,7 @@ public class LaptopDataCrawl extends CommonTest {
      * - i7
      */
     @Test
-    public void laptopTestcase01() throws InterruptedException, IOException {
+    public void laptopTestcase01() {
         laptopByBrandPage.selectByBrand("asus");
         laptopByCpuPage.selectByCpu("i7");
         productPage.getListProduct();

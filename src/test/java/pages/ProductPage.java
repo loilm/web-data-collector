@@ -5,9 +5,11 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,12 +22,13 @@ public class ProductPage {
     private CommonPage commonPage;
 
     By listProduct = By.xpath("//div[3]/ul/li");
-    By viewMoreEnable = By.xpath("(//div/a[contains(text(),'Xem thêm')])[1]");
+    By viewMore = By.xpath("(//div/a[contains(text(),'Xem thêm')])[1]");
+    /*the last item of list is displayed then viewMoreDisable ON*/
     By viewMoreDisable = By.xpath("(//div[@style='display: none;']/a[contains(text(),'Xem thêm')])[1]");
+    /*list <=20 then viewMoreHide ON*/
     By viewMoreHide = By.xpath("//div[@class='view-more hide']");
-    /**
-     * For get info product
-     */
+
+    /*For get info product*/
     String beforeXpath_LaptopName = "//li[";
     String afterXpath_LaptopName = "]/a/h3";
     String beforeXpath_RamInfo = "//li[";
@@ -51,18 +54,20 @@ public class ProductPage {
         commonPage = new CommonPage(driver);
     }
 
-    public void getListProduct() throws InterruptedException, IOException {
+    public void getListProduct() {
         int count = 0;
-        while (driver.findElements(viewMoreDisable).size() == 0 && driver.findElements(viewMoreHide).size() == 0) {
-            WebElement viewMoreEnableEl = driver.findElement(viewMoreEnable);
-            if (viewMoreEnableEl.isDisplayed()) {
-                viewMoreEnableEl.click();
+        while (driver.findElements(viewMoreDisable).size() == 0 &&
+                driver.findElements(viewMoreHide).size() == 0) {
+            WebElement viewMoreElement = driver.findElement(viewMore);
+            if (viewMoreElement.isDisplayed()) {
+                viewMoreElement.click();
                 count++;
             }
-            Thread.sleep(2000);
+            Log.info("| Wait list load AFTER click viewMore");
+            commonPage.waitForPageLoaded();
         }
         List<WebElement> listOfProduct = driver.findElements(listProduct);
-        System.out.println("Click: " + count + " times in " + listOfProduct.size());
+        System.out.println("Click: " + count + " times. List total: " + listOfProduct.size());
 
 //        exportExcel(listOfProduct, "Sheet1");
 
@@ -110,7 +115,8 @@ public class ProductPage {
         System.out.println("Link san pham: " + productLink);
     }
 
-    public void exportExcel(List<WebElement> list, String sheetName) throws IOException {
+    public void exportExcel(List<WebElement> list, String sheetName) {
+        Log.info("| Start export excel...");
         int rows = list.size();
         // Create a workbook and a sheet
         HSSFWorkbook wb = new HSSFWorkbook();
@@ -171,8 +177,13 @@ public class ProductPage {
             row1.createCell(9).setCellValue(productLink);
             System.out.println("Progress: " + i * 100 / rows + " %");
         }
-        FileOutputStream fileOut = new FileOutputStream("output/reports/TestData.xls");
-        wb.write(fileOut);
-        fileOut.close();
+        try {
+            FileOutputStream fileOut = new FileOutputStream("output/reports/TestData.xls");
+            wb.write(fileOut);
+            fileOut.close();
+            Log.info("| Export excel success");
+        } catch (IOException e) {
+            Log.error("| Error export excel: " + e.getMessage());
+        }
     }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.Log;
 
 import java.time.Duration;
 
@@ -13,12 +14,9 @@ public class LaptopByBrandPage {
     private WebDriverWait wait;
     private CommonPage commonPage;
 
-    By brandOption = By.xpath("//span[contains(text(),'Hãng')]");
-    //    By brandFilterBox = By.xpath("(//div[@class='filter-show'])[1]");
+    By brandOption = By.xpath("//div[starts-with(@class,'filter-item block-manu')]/div/span");
     By brandFilterBox = By.xpath("(//div[starts-with(@class,'filter-show')])[2]");
     By macBookOption = By.xpath("(//img[@alt='MacBook'])[2]");
-    //    By macBookOption = By.xpath("(//img[contains(@alt='MacBook')])[2]");
-    //    By asusOption = By.xpath("(//img[@alt='Asus'])[2]");
     By asusOption = By.xpath("//div[3]/div[2]/div/a[2]/img");
     By hpOption = By.xpath("(//img[@alt='HP'])[2]");
     By lenovoOption = By.xpath("(//img[@alt='Lenovo'])[2]");
@@ -32,8 +30,6 @@ public class LaptopByBrandPage {
     By itelOption = By.xpath("(//img[@alt='itel'])[2]");
     By chuwiOption = By.xpath("(//img[@alt='Chuwi'])[2]");
     By viewResult = By.xpath("(//a[@href='#'])[1]");
-    //    By viewResult = By.xpath("(//a[contains(@href, '#')])[2]");
-    //    By viewResult = By.xpath("//div[3]/div[2]/div[2]/a[2]");
 
     public LaptopByBrandPage(WebDriver driver) {
         this.driver = driver;
@@ -41,7 +37,7 @@ public class LaptopByBrandPage {
         commonPage = new CommonPage(driver);
     }
 
-    public void selectByBrand(String brandName) throws InterruptedException {
+    public void selectByBrand(String brandName) {
         commonPage.clickElement(brandOption);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(brandFilterBox)));
         switch (brandName.trim().toLowerCase()) {
@@ -84,8 +80,15 @@ public class LaptopByBrandPage {
             case "chuwi":
                 commonPage.clickElement(chuwiOption);
                 break;
+            default:
+                Log.error("| " + new Throwable()
+                        .getStackTrace()[0]
+                        .getMethodName() + ": '" + brandName + "' not found");
         }
         commonPage.clickElement(viewResult);
+        Log.info("| " + new Throwable()
+                .getStackTrace()[0]
+                .getMethodName() + ": wait for page load after click viewResult");
         commonPage.waitForPageLoaded();
     }
 }
