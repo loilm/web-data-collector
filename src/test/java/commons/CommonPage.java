@@ -1,11 +1,7 @@
 package commons;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
 import utils.Log;
 
 import java.time.Duration;
@@ -13,7 +9,7 @@ import java.time.Duration;
 public class CommonPage {
     private static WebDriver driver;
     private static WebDriverWait wait;
-    private static int timeForPageLoad = 30;
+    private static final int timeForPageLoad = 30;
 
     public CommonPage(WebDriver driver) {
         this.driver = driver;
@@ -28,6 +24,15 @@ public class CommonPage {
     public void clickElement(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator));
         driver.findElement(locator).click();
+        Log.info("| " + new Throwable().getStackTrace()[0].getMethodName() + ": " + locator);
+    }
+
+    public void clickElementWithJS(By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        WebElement webElement = driver.findElement(locator);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", webElement);
+        Log.info("| " + new Throwable().getStackTrace()[0].getMethodName() + ": " + locator);
     }
 
     public static void waitForPageLoaded() {
