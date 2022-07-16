@@ -5,7 +5,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,7 +20,7 @@ public class ProductPage {
     private WebDriverWait wait;
     private CommonPage commonPage;
 
-    By listProduct = By.xpath("//div[3]/ul/li");
+    By productList = By.xpath("//div[@class='container-productbox']/ul/li");
     By viewMore = By.xpath("(//div/a[contains(text(),'Xem thêm')])[1]");
     /*the last item of list is displayed then viewMoreDisable ON*/
     By viewMoreDisable = By.xpath("(//div[@style='display: none;']/a[contains(text(),'Xem thêm')])[1]");
@@ -54,19 +53,57 @@ public class ProductPage {
         commonPage = new CommonPage(driver);
     }
 
+    /*For click brand, ram, cpu....*/
+    public void clickOption(By optionLocator, int[] indexItemArr, By itemListLocator, String beforeItemPath, String afterItemPath, By viewResultBtn) {
+        commonPage.clickElementWithJS(optionLocator);
+        clickOptionByArray(indexItemArr, itemListLocator, beforeItemPath, afterItemPath);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        commonPage.clickElementWithJS(viewResultBtn);
+        Log.info("| " + new Throwable()
+                .getStackTrace()[0]
+                .getMethodName() + ": wait for page load after click viewResult");
+        commonPage.waitForPageLoaded();
+    }
+
+    /**
+     * input: index array {x, z}
+     * output: click item in list at index = x, index = z
+     */
+    public void clickOptionByArray(int[] indexItemArr, By itemListLocator, String beforeItemPath, String afterItemPath) {
+        for (int i = 0; i < indexItemArr.length; i++) {
+            clickItemInList(itemListLocator, beforeItemPath, indexItemArr[i], afterItemPath);
+        }
+    }
+
+    public void clickItemInList(By itemListLocator, String beforeItemPath, int index, String afterItemPath) {
+        String itemPath = beforeItemPath + index + afterItemPath;
+        By itemLocator = By.xpath(itemPath);
+        List<WebElement> list = driver.findElements(itemListLocator);
+        for (int i = 1; i <= list.size(); i++) {
+            if (i == index) {
+                commonPage.clickElementWithJS(itemLocator);
+            }
+        }
+        Log.info("| " + new Throwable().getStackTrace()[0].getMethodName() + ": " + index);
+    }
+
     public void getListProduct() {
         int count = 0;
         while (driver.findElements(viewMoreDisable).size() == 0 &&
                 driver.findElements(viewMoreHide).size() == 0) {
             WebElement viewMoreElement = driver.findElement(viewMore);
             if (viewMoreElement.isDisplayed()) {
-                viewMoreElement.click();
+                commonPage.clickElementWithJS(viewMore);
                 count++;
             }
             Log.info("| Wait list load AFTER click viewMore");
             commonPage.waitForPageLoaded();
         }
-        List<WebElement> listOfProduct = driver.findElements(listProduct);
+        List<WebElement> listOfProduct = driver.findElements(productList);
         System.out.println("Click: " + count + " times. List total: " + listOfProduct.size());
 
 //        exportExcel(listOfProduct, "Sheet1");
