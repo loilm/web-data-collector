@@ -42,11 +42,11 @@ public class LaptopPage {
     By viewScreenResult = By.xpath("//div[@propertyid='187']/div[2]/div[2]/a[2]/b");
 
     /*CPU*/
-    By cpuOption = By.xpath("//div[@propertyid='6241']/div/span");
-    By cpuList = By.xpath("//div[@propertyid='6241']/div[2]/div[1]/a");
-    String before_CpuItem = "//div[@propertyid='6241']/div[2]/div/a[";
+    By cpuOption = By.xpath("//div[7]/div/span");
+    By cpuList = By.xpath("//div[7]/div[2]/div[1]/a");
+    String before_CpuItem = "//div[7]/div[2]/div/a[";
     String after_CpuItem = "]";
-    By viewCpuResult = By.xpath("//div[@propertyid='6241']/div[2]/div[2]/a[2]");
+    By viewCpuResult = By.xpath("//div[7]/div[2]/div[2]/a[2]");
 
     /*RAM*/
     By ramOption = By.xpath("//div[@propertyid='146']/div/span");
