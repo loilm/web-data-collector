@@ -28,20 +28,20 @@ public class ProductPage {
     By viewMoreHide = By.xpath("//div[@class='view-more hide']");
 
     /*For get info product*/
-    String beforeXpath_LaptopName = "//li[";
-    String afterXpath_LaptopName = "]/a/h3";
+    String beforeXpath_LaptopName = "//*[@id='categoryPage']/div[3]/ul/li[";
+    String afterXpath_LaptopName = "]/a[1]/h3";
     String beforeXpath_RamInfo = "//li[";
     String afterXpath_RamInfo = "]/a/div[3]/span[1]";
     String beforeXpath_SsdInfo = "//li[";
     String afterXpath_SsdInfo = "]/a/div[3]/span[2]";
-    String beforeXpath_ScreenInfo = "(//li[";
-    String afterXpath_ScreenInfo = "]/div[@class='utility']/p[1]/span)[2]";
-    String beforeXpath_CpuInfo = "(//li[";
-    String afterXpath_CpuInfo = "]/div[@class='utility']/p[2]/span)[2]";
-    String beforeXpath_VgaInfo = "(//li[";
-    String afterXpath_VgaInfo = "]/div[@class='utility']/p[3]/span)[2]";
-    String beforeXpath_BatteryInfo = "(//li[";
-    String afterXpath_BatteryInfo = "]/div[@class='utility']/p[4]/span)[2]";
+    String beforeXpath_ScreenInfo = "//li[";
+    String afterXpath_ScreenInfo = "]/div[@class='utility']/p[1]";
+    String beforeXpath_CpuInfo = "//li[";
+    String afterXpath_CpuInfo = "]/div[@class='utility']/p[2]";
+    String beforeXpath_VgaInfo = "//li[";
+    String afterXpath_VgaInfo = "]/div[@class='utility']/p[3]";
+    String beforeXpath_BatteryInfo = "//li[";
+    String afterXpath_BatteryInfo = "]/div[@class='utility']/p[4]";
     String beforeXpath_ProductPrice = "//li[";
     String afterXpath_ProductPrice = "]/a/strong";
     String beforeXpath_ProductLink = "(//a[@class='main-contain'])[";
