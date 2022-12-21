@@ -59,5 +59,9 @@ public class CommonPage {
         } catch (Throwable error) {
             Log.warn("| Wait for page load FAIL: " + error.getMessage());
         }
+        /*Scroll to the bottom*/
+        Log.info("| Scroll to the bottom");
+        ((JavascriptExecutor)
+                driver).executeScript ("window.scrollTo( 0, document.body.scrollHeight)");
     }
 }
