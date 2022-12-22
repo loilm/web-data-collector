@@ -7,17 +7,14 @@ import org.apache.poi.ss.usermodel.Row;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.List;
 
 public class ProductPage {
     private WebDriver driver;
-    private WebDriverWait wait;
     private CommonPage commonPage;
 
     By productList = By.xpath("//div[@class='container-productbox']/ul/li");
@@ -27,8 +24,8 @@ public class ProductPage {
     /*list <=20 then viewMoreHide ON*/
     By viewMoreHide = By.xpath("//div[@class='view-more hide']");
 
-    /*For get info product*/
-    String beforeXpath_LaptopName = "//*[@id='categoryPage']/div[3]/ul/li[";
+    /*For get product info*/
+    String beforeXpath_LaptopName = "//li[";
     String afterXpath_LaptopName = "]/a[1]/h3";
     String beforeXpath_RamInfo = "//li[";
     String afterXpath_RamInfo = "]/a/div[3]/span[1]";
@@ -49,7 +46,6 @@ public class ProductPage {
 
     public ProductPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         commonPage = new CommonPage(driver);
     }
 
@@ -109,47 +105,48 @@ public class ProductPage {
 //        exportExcel(listOfProduct, "Sheet1");
 
         for (int i = 1; i <= listOfProduct.size(); i++) {
-            getInfoProduct(i);
+            getProductInfo(i);
         }
     }
 
-    public void getInfoProduct(int i) {
+    /*Print Product Info*/
+    public void getProductInfo(int i) {
         String laptopNamePath = beforeXpath_LaptopName + i + afterXpath_LaptopName;
         String laptopName = commonPage.getText(By.xpath(laptopNamePath));
         System.out.println(i + " - " + laptopName);
 
         String ramInfoPath = beforeXpath_RamInfo + i + afterXpath_RamInfo;
         String ramInfo = commonPage.getText(By.xpath(ramInfoPath));
-        System.out.println("RAM: " + ramInfo);
+        System.out.println(ramInfo);
 
         String ssdInfoPath = beforeXpath_SsdInfo + i + afterXpath_SsdInfo;
         String ssdInfo = commonPage.getText(By.xpath(ssdInfoPath));
-        System.out.println("SSD: " + ssdInfo);
+        System.out.println(ssdInfo);
 
         String screenInfoPath = beforeXpath_ScreenInfo + i + afterXpath_ScreenInfo;
         String screenInfo = commonPage.getText(By.xpath(screenInfoPath));
-        System.out.println("Man Hinh: " + screenInfo);
+        System.out.println(screenInfo);
 
         String cpuInfoPath = beforeXpath_CpuInfo + i + afterXpath_CpuInfo;
         String cpuInfo = commonPage.getText(By.xpath(cpuInfoPath));
-        System.out.println("CPU: " + cpuInfo);
+        System.out.println(cpuInfo);
 
         String vgaInfopath = beforeXpath_VgaInfo + i + afterXpath_VgaInfo;
         String vgaInfo = commonPage.getText(By.xpath(vgaInfopath));
-        System.out.println("VGA: " + vgaInfo);
+        System.out.println(vgaInfo);
 
         String batteryInfoPath = beforeXpath_BatteryInfo + i + afterXpath_BatteryInfo;
         String batteryInfo = commonPage.getText(By.xpath(batteryInfoPath));
-        System.out.println("Pin: " + batteryInfo);
+        System.out.println(batteryInfo);
 
         String productPricePath = beforeXpath_ProductPrice + i + afterXpath_ProductPrice;
         String productPrice = commonPage.getText(By.xpath(productPricePath));
         String productPriceTxt = productPrice.substring(0, productPrice.length() - 1).replace(".", "");
-        System.out.println("Gia tien: " + productPriceTxt);
+        System.out.println("Gia: " + productPriceTxt);
 
         String productLinkPath = beforeXpath_ProductLink + i + afterXpath_ProductLink;
         String productLink = driver.findElement(By.xpath(productLinkPath)).getAttribute("href").trim();
-        System.out.println("Link san pham: " + productLink);
+        System.out.println("Link: " + productLink);
     }
 
     public void exportExcel(List<WebElement> list, String sheetName) {
