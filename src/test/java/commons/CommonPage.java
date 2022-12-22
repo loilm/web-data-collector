@@ -17,8 +17,18 @@ public class CommonPage {
     }
 
     public String getText(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        return driver.findElement(locator).getText().trim();
+        try {
+            // wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        } catch (Exception e) {
+            return "Not found";
+        }
+
+        String text = driver.findElement(locator).getText().trim();
+        if (text.isEmpty()) {
+            text = "...";
+        }
+        return text;
     }
 
     public void clickElement(By locator) {
@@ -62,6 +72,6 @@ public class CommonPage {
         /*Scroll to the bottom*/
         Log.info("| Scroll to the bottom");
         ((JavascriptExecutor)
-                driver).executeScript ("window.scrollTo( 0, document.body.scrollHeight)");
+                driver).executeScript("window.scrollTo( 0, document.body.scrollHeight)");
     }
 }
