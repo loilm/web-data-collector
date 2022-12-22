@@ -1,16 +1,9 @@
 package pages;
 
-import commons.CommonPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class LaptopPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private CommonPage commonPage;
     private ProductPage productPage;
 
     /*Brand*/
@@ -22,24 +15,24 @@ public class LaptopPage {
 
     /*Price*/
     By priceOption = By.xpath("//div[4]/div/span");
-    By priceList = By.xpath("(//div[@class='filter-list price'])[2]/a");
+    By priceList = By.xpath("//div[4]/div[2]/div[1]/a");
     String before_PriceItem = "//div[4]/div[2]/div[1]/a[";
     String after_PriceItem = "]";
-    By viewPriceResult = By.xpath("//div[3]/a[2]/b");
+    By viewPriceResult = By.xpath("//div[4]/div[2]/div[3]/a[2]");
 
     /*Demand*/
-    By demandOption = By.xpath("//div[@propertyid='5879']/div/span");
-    By demandList = By.xpath("//div[@propertyid='5879']/div[2]/div[1]/a");
-    String before_DemandItem = "//div[@propertyid='5879']/div[2]/div[1]/a[";
+    By demandOption = By.xpath("//div[5]/div/span");
+    By demandList = By.xpath("//div[5]/div[2]/div[1]/a");
+    String before_DemandItem = "//div[5]/div[2]/div[1]/a[";
     String after_DemandItem = "]";
-    By viewDemandResult = By.xpath("//div[@propertyid='5879']/div[2]/div[2]/a[2]/b");
+    By viewDemandResult = By.xpath("//div[5]/div[2]/div[2]/a[2]");
 
     /*Screen*/
-    By screenOption = By.xpath("//div[@propertyid='187']/div/span");
-    By screenList = By.xpath("//div[@propertyid='187']/div[2]/div[1]/a");
-    String before_ScreenItem = "//div[@propertyid='187']/div[2]/div[1]/a[";
+    By screenOption = By.xpath("//div[6]/div/span");
+    By screenList = By.xpath("//div[6]/div[2]/div[1]/a");
+    String before_ScreenItem = "//div[6]/div[2]/div[1]/a[";
     String after_ScreenItem = "]";
-    By viewScreenResult = By.xpath("//div[@propertyid='187']/div[2]/div[2]/a[2]/b");
+    By viewScreenResult = By.xpath("//div[2]/div[5]/a[2]");
 
     /*CPU*/
     By cpuOption = By.xpath("//div[7]/div/span");
@@ -49,26 +42,25 @@ public class LaptopPage {
     By viewCpuResult = By.xpath("//div[7]/div[2]/div[2]/a[2]");
 
     /*RAM*/
-    By ramOption = By.xpath("//div[@propertyid='146']/div/span");
-    By ramList = By.xpath("//div[@propertyid='146']/div[2]/div[1]/a");
-    String before_RamItem = "//div[@propertyid='146']/div[2]/div/a[";
+    By ramOption = By.xpath("//div[8]/div/span");
+    By ramList = By.xpath("//div[8]/div[2]/div[1]/a");
+    String before_RamItem = "//div[8]/div[2]/div[1]/a[";
     String after_RamItem = "]";
-    By viewRamResult = By.xpath("//div[@propertyid='146']/div[2]/div[2]/a/b");
+    By viewRamResult = By.xpath("//div[8]/div[2]/div[2]/a[2]");
 
     /*Disk*/
-    By diskOption = By.xpath("//div[@propertyid='11083']/div/span");
-    By diskList = By.xpath("//div[@propertyid='11083']/div[2]/div[1]/a");
-    String before_DiskItem = "//div[@propertyid='11083']/div[2]/div[1]/a[";
+    By diskOption = By.xpath("//div[9]/div/span");
+    By diskList = By.xpath("//div[9]/div[2]/div[1]/a");
+    String before_DiskItem = "//div[9]/div[2]/div[1]/a[";
     String after_DiskItem = "]";
-    By viewDiskResult = By.xpath("//div[@propertyid='11083']/div[2]/div[2]/a/b");
+    By viewDiskResult = By.xpath("//div[9]/div[2]/div[2]/a[2]");
 
     public LaptopPage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        commonPage = new CommonPage(driver);
         productPage = new ProductPage(driver);
     }
 
+    /*input: 1, 3, 4
+     * in brand option: click brand with position 1, 3, 4 */
     public void clickBrandOption(int[] indexItemArr) {
         productPage.clickOption(brandOption, indexItemArr, brandList, before_BrandItem, after_BrandItem, viewBrandResult);
     }
